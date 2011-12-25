@@ -10,14 +10,15 @@ typedef struct char_int_pairs {
 
 
 
-#define METHOD_COUNT 6
+#define METHOD_COUNT 7 
 #define PROTOCOL_COUNT 2
 char_int_pairs _method[METHOD_COUNT] = { {"GET", GET, 3},
 	 						 {"POST", POST, 4},
 							 {"OPTIONS", OPTIONS, 7},
 							 {"CREATE", CREATE, 6},
 							 {"DESCRIBE", DESCRIBE, 8},
-							 {"SETUP", SETUP, 5} };
+							 {"SETUP", SETUP, 5},
+							 {"PLAY", PLAY, 4} };
 char_int_pairs _protocol[PROTOCOL_COUNT] = { {"HTTP", HTTP, 4},
 											 {"RTSP", RTSP, 4} };
 
@@ -104,14 +105,21 @@ req_info *parse_http(char *buf_header) {
 		}
 		//printf("Header: %s\n", line_header);
 		//Parse the request header
-		while( (line_tail = strchr(line_header, '\n')) ) {
+		while( (line_tail = strstr(line_header, "\r\n")) ) {
 			*line_tail = '\0';
 			if( strstr(line_header, "CSeq") ) {
 				((req_rtsp_extend_header *)header->_req_header->extend_header)->c_seq = atoi(line_header + 5);
-				break;
+				//break;
+			} else if( strstr(line_header, "Transport") ) {
+				line_header += 10; //Has a ':'
+				while(*line_header == ' ' ) {
+					line_header ++;
+				}
+				((req_rtsp_extend_header *)header->_req_header->extend_header)->transport = (char *)calloc(sizeof(char), strlen(line_header));
+				strcpy(((req_rtsp_extend_header *)header->_req_header->extend_header)->transport, line_header);	
 			}
-			if( line_tail + 1 < buf_header + buf_len )
-				line_header = line_tail + 1;
+			if( line_tail + 2 < buf_header + buf_len )
+				line_header = line_tail + 2;
 			else 
 				break;
 		}

@@ -34,7 +34,8 @@ typedef enum {
 	OPTIONS,
 	CREATE,
 	DESCRIBE,
-	SETUP
+	SETUP,
+	PLAY
 } METHOD;
 typedef struct req_line {
 	METHOD method;
@@ -52,6 +53,7 @@ typedef struct req_extend_header req_extend_header;
 
 typedef struct req_rtsp_extend_header {
 	int c_seq;
+	char *transport;
 } req_rtsp_extend_header;
 
 typedef struct req_header {

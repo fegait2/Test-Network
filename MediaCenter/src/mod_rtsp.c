@@ -7,6 +7,12 @@
 #include "mod_core.h"
 #include "util.h"
 #include "mod_rtsp.h"
+/*
+typedef struct rtsp_session {
+	long s_id;
+	
+}
+*/
 
 static int fd;
 static int conn_fd;
@@ -25,6 +31,8 @@ static void send_message(char *buf, int len);
 char *get_string_int_line(char*, char, int);
 void send_options_response(req_info *req);
 void send_discribe_reponse(req_info *req);
+void send_setup_reponse(req_info *req);
+void send_play_response(req_info *req);
 
 void create_rtsp(net_module *module) {
 	if( !module )
@@ -85,6 +93,7 @@ static void process_request() {
 		//printf("ts: %d\n", ts);
         if( (size = read(conn_fd, buf + t_size, 1024)) <= 0 ) {
 			printf("if size:%d, %d\n", size, getpid());
+			printf("buffer: %s\n", buf);
 			break;
 		}
 		printf("size: %d, %d\n", size, getpid());
@@ -93,6 +102,7 @@ static void process_request() {
 		if( t_size > 3 && buf[t_size - 4] == 13 && buf[t_size - 3] == 10 && buf[t_size - 2] == 13 && buf[t_size - 1] == 10 ) {
 			printf("rtsp request:%s\n", buf);
 			header = parse_http(buf);
+			printf("parse success!!\n");
 			if( header ) {
 				process_command(header);
 				release_header(header);
@@ -141,7 +151,7 @@ static void process_request() {
 	write(fd, "\r\n\r\n", 4);
 	write(fd, "<html><body>test</body></html>", 30);
 */
-	close(conn_fd);
+	//close(conn_fd);
 	//if( header->_req_line->method == OPTIONS )
 	//shutdown(conn_fd, SHUT_WR);
 }
@@ -188,7 +198,7 @@ static void send_response_header(req_info *info) {
 void parse_file_type(char *file) {
 }
 */
-
+/*
 static void send_respone_file_data(char *file) {
 	char buf[512];
 	int file_fd;
@@ -203,7 +213,7 @@ static void send_respone_file_data(char *file) {
     }
 	close(file_fd);
 }
-
+*/
 static void make_envp(req_info *header) {
 }
 
@@ -222,8 +232,19 @@ static void process_command(req_info *header) {
 		send_discribe_reponse(header);
 		break;
 	case SETUP:
-		
+		//printf("Transport: %s\n", ((req_rtsp_extend_header *)(header->_req_header->extend_header))->transport);
 		printf("Recive Setup command!!!!!!!\n");
+		send_respone_line(0);
+		send_setup_reponse(header);
+		break;
+	case PLAY:
+		printf("Recive PLAY command!!!!\n");
+		send_respone_line(0);
+		send_play_response(header);
+		//close(conn_fd);
+		break;
+	default:
+		printf("Recive other command!!!\n");
 	}
 }
 
@@ -240,14 +261,14 @@ char *build_sdp_content() {
 	char sid[20]= {0};
 	struct timeval t_us;
 	strcpy(sdp, "v=0\r\n");
-	//strcat(sdp, "o=- ");
-   	//gettimeofday(&t_us, NULL); 
-	//sprintf(sid, "%ld ", t_us.tv_sec*1000 + t_us.tv_usec);
-	//strcat(sdp, sid);
-	//gettimeofday(&t_us, NULL);
-	//sprintf(sid, "%ld ", t_us.tv_sec*1000 + t_us.tv_usec);
-	//strcat(sdp, sid);
-	strcat(sdp, "o=- 1323590466063534 1 IN IP4 127.0.0.1\r\n");
+	strcat(sdp, "o=- ");
+   	gettimeofday(&t_us, NULL); 
+	sprintf(sid, "%ld ", t_us.tv_sec*1000 + t_us.tv_usec);
+	strcat(sdp, sid);
+	gettimeofday(&t_us, NULL);
+	sprintf(sid, "%ld ", t_us.tv_sec*1000 + t_us.tv_usec);
+	strcat(sdp, sid);
+	//strcat(sdp, "o=- 1323590466063534 1 IN IP4 127.0.0.1\r\n");
 	strcat(sdp, "s=MPEG-4 Video, streamed by the LIVE555 Media Server\r\n");
 	//strcat(sdp, "i=1.m4e\r\n");
 	strcat(sdp, "t=0 0\r\n");
@@ -257,11 +278,11 @@ char *build_sdp_content() {
 	strcat(sdp, "a=range:npt=0-\r\n");
 	strcat(sdp, "a=x-qt-text-nam:MPEG-4 Video, streamed by the LIVE555 Media Server\r\n");
 	strcat(sdp, "a=x-qt-text-inf:1.m4e\r\n");
-	strcat(sdp, "m=video 0 RTP/AVP 96\r\n");
+	strcat(sdp, "m=audio 0 RTP/AVP 14\r\n");
 	strcat(sdp, "c=IN IP4 0.0.0.0\r\n");
-	strcat(sdp, "b=AS:500\r\n");
-	strcat(sdp, "a=rtpmap:96 MP4V-ES/90000\r\n");
-	strcat(sdp, "a=control:track1\r\n");
+	strcat(sdp, "b=AS:224\r\n");
+	//strcat(sdp, "a=rtpmap:96 MP4V-ES/90000\r\n");
+	strcat(sdp, "a=control:track1\r\n\r\n");
 	//printf("sdp: %s\n", sdp);
 	return sdp;
 /*
@@ -286,22 +307,20 @@ void send_discribe_reponse(req_info *req) {
 	char *cseq = get_string_int_line("CSeq", ':', ((req_rtsp_extend_header *)(req->_req_header->extend_header))->c_seq);
 	
 	int sdp_len = strlen(sdp);
-	printf("cseq: %s\n", cseq);
+	//printf("cseq: %s\n", cseq);
 	write(conn_fd, cseq, strlen(cseq));
 	free(cseq);
 	char *cl = get_string_int_line("Content-Length", ':', sdp_len);
 	//printf("con len: %s\n", cl);
-	write(conn_fd, "Date: Mon, Dec 12 2011 12:51:50 GMT\r\n", strlen("Date: Mon, Dec 12 2011 12:51:50 GMT\r\n"));
-	write(conn_fd, "Content-Base: rtsp://127.0.0.1:554/1.3gp/\r\n", strlen("Content-Base: rtsp://127.0.0.1:554/1.3gp/\r\n"));
+	//write(conn_fd, "Date: Mon, Dec 12 2011 12:51:50 GMT\r\n", strlen("Date: Mon, Dec 12 2011 12:51:50 GMT\r\n"));
+	//write(conn_fd, "Content-Base: rtsp://127.0.0.1:554/1.3gp/\r\n", strlen("Content-Base: rtsp://127.0.0.1:554/1.3gp/\r\n"));
 	write(conn_fd, cl, strlen(cl));
 	free(cl);
 	write(conn_fd, "Content-Type:application/sdp\r\n", strlen("Content-Type:application/sdp\r\n"));
 	write(conn_fd, "\r\n", 2);
 	write(conn_fd, sdp, sdp_len);
-	write(conn_fd, "\r\n", 2);
+	//write(conn_fd, "\r\n", 2);
 	//free(sdp);
-	printf("write end: %d\n", getpid());
-	fflush(stdout);
 	
 	/*
 	char tmp[1000] = {0};
@@ -315,6 +334,35 @@ void send_discribe_reponse(req_info *req) {
 	fflush(stdout);
 	write(conn_fd, tmp, strlen(tmp));
 	*/
+}
+
+void send_setup_reponse(req_info *req) {
+	char *cseq = get_string_int_line("CSeq", ':', ((req_rtsp_extend_header *)(req->_req_header->extend_header))->c_seq);
+	write(conn_fd, cseq, strlen(cseq));
+	free(cseq);
+	char *transport = ((req_rtsp_extend_header *)(req->_req_header->extend_header))->transport;
+	write(conn_fd, "Transport:", 10);
+	//write(conn_fd, transport, strlen(transport));
+	write(conn_fd, "TCP/AVP/UDP;", strlen("TCP/AVP/TCP;"));
+	write(conn_fd, strstr(transport, "unicast"), strlen(strstr(transport, "unicast")));
+	write(conn_fd, ";source=192.168.10.103;server_port=7880-7881\r\n", strlen(";source=192.168.10.103;server_port=7880-7881\r\n"));
+	//write(conn_fd, "Transport: RTP/AVP/UDP;unicast;destination=192.168.10.105;source=192.168.10.103;client_port=5000-5001;server_port=6970-6971\r\n",
+	//	strlen("Transport: RTP/AVP/UDP;unicast;destination=192.168.10.105;source=192.168.10.103;client_port=5000-5001;server_port=6970-6971\r\n"));
+	//int session ;
+	//struct timeval t_us;
+	//gettimeofday(&t_us, NULL);
+	//char *session = get_string_int_line("Session", ':', (int)(t_us.tv_sec*1000 + t_us.tv_usec));
+	write(conn_fd, "Session: 12F2094B\r\n\r\n", strlen("Session: 12F2094B\r\n\r\n"));
+	//printf("Session: %s\n", session);
+	//write(conn_fd, "\r\n", 2);
+}
+
+void send_play_response(req_info *req) {
+	char *cseq = get_string_int_line("CSeq", ':', ((req_rtsp_extend_header *)(req->_req_header->extend_header))->c_seq);
+	write(conn_fd, cseq, strlen(cseq));
+	free(cseq);
+	write(conn_fd, "Range: npt=0.000-\r\n", strlen("Range: npt=0.000-\r\n"));
+	write(conn_fd, "Session: 12F2094B\r\n\r\n", strlen("Session: 12F2094B\r\n\r\n"));	
 }
 
 static void send_respone_body(req_info *header) {
