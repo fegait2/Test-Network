@@ -1,0 +1,15 @@
+RTP library
+
+Copyright 1997, 1998 Lucent Technologies; all rights reserved
+
+Version created by
+Jonathan Lennox
+Jonathan Rosenberg
+Dan Rubenstein
+
+To compile:
+./configure
+make
+make install
+
+You will need to use GNU make.
