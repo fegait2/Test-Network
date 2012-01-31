@@ -15,7 +15,7 @@ SHELL = /bin/sh
 
 srcdir = .
 top_srcdir = .
-prefix = /usr/local
+prefix = ../sdk
 exec_prefix = ${prefix}
 
 bindir = ${exec_prefix}/bin
@@ -39,10 +39,10 @@ pkgincludedir = $(includedir)/rtplib
 
 top_builddir = .
 
-ACLOCAL = aclocal
-AUTOCONF = autoconf
-AUTOMAKE = automake
-AUTOHEADER = autoheader
+ACLOCAL = /home/lee/workspace/Test-Network/MediaCenter/rtplib-1.0a1/missing aclocal
+AUTOCONF = /home/lee/workspace/Test-Network/MediaCenter/rtplib-1.0a1/missing autoconf
+AUTOMAKE = /home/lee/workspace/Test-Network/MediaCenter/rtplib-1.0a1/missing automake
+AUTOHEADER = /home/lee/workspace/Test-Network/MediaCenter/rtplib-1.0a1/missing autoheader
 
 INSTALL = /usr/bin/install -c
 INSTALL_PROGRAM = ${INSTALL}

@@ -1,0 +1,44 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:561: checking for a BSD compatible install
+configure:618: checking whether build environment is sane
+configure:679: checking for mawk
+configure:709: checking whether make sets ${MAKE}
+configure:749: checking for working aclocal
+configure:762: checking for working autoconf
+configure:775: checking for working automake
+configure:788: checking for working autoheader
+configure:801: checking for working makeinfo
+configure:821: checking for gnutar
+configure:868: checking for gcc
+configure:981: checking whether the C compiler (gcc   ) works
+configure:997: gcc -o conftest    conftest.c  1>&5
+configure:1023: checking whether the C compiler (gcc   ) is a cross-compiler
+configure:1028: checking whether we are using GNU C
+configure:1056: checking whether gcc accepts -g
+configure:1099: checking for a BSD compatible install
+configure:1156: checking whether ln -s works
+configure:1177: checking whether make sets ${MAKE}
+configure:1206: checking for ranlib
+configure:1239: checking for gethostname in -lnsl
+configure:1286: checking for socket in -lsocket
+configure:1334: checking how to run the C preprocessor
+configure:1414: checking for ANSI C header files
+configure:1521: checking for malloc.h
+configure:1521: checking for stdlib.h
+configure:1521: checking for string.h
+configure:1521: checking for sys/time.h
+configure:1521: checking for unistd.h
+configure:1559: checking for uid_t in sys/types.h
+configure:1593: checking for pid_t
+configure:1629: checking whether time.h and sys/time.h may both be included
+configure:1664: checking whether byte ordering is bigendian
+configure:1757: checking for gethostname
+configure:1757: checking for gettimeofday
+configure:1757: checking for select
+configure:1757: checking for socket
+configure:1757: checking for uname
+configure:1757: checking for snprintf
+configure:1757: checking for vsnprintf
+configure:1813: checking for strerror

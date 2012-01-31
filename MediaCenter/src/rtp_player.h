@@ -7,6 +7,7 @@ typedef enum RTPType {
 typedef struct RTPPlayerConf {
 	int rtpPort;
 	int rtcpPort;
+  char *ip[20];
 	RTPType type;
 } RTPPlayerConf;
 

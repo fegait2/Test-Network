@@ -1,0 +1,123 @@
+This file contains any messages produced by compilers while
+running configure, to aid debugging if configure makes a mistake.
+
+configure:557: checking for a BSD compatible install
+configure:610: checking whether build environment is sane
+configure:667: checking whether make sets ${MAKE}
+configure:706: checking for working aclocal
+configure:719: checking for working autoconf
+configure:732: checking for working automake
+configure:745: checking for working autoheader
+configure:758: checking for working makeinfo
+configure:780: checking for gcc
+configure:893: checking whether the C compiler (gcc  ) works
+configure:909: gcc -o conftest    conftest.c  1>&5
+configure:935: checking whether the C compiler (gcc  ) is a cross-compiler
+configure:940: checking whether we are using GNU C
+configure:949: gcc -E conftest.c
+configure:968: checking whether gcc accepts -g
+configure:1011: checking for a BSD compatible install
+configure:1064: checking whether ln -s works
+configure:1085: checking whether make sets ${MAKE}
+configure:1114: checking for ranlib
+configure:1147: checking for gethostname in -lnsl
+configure:1166: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl   1>&5
+configure:1159:1: warning: function declaration isn't a prototype
+configure:1161:5: warning: function declaration isn't a prototype
+configure:1194: checking for socket in -lsocket
+configure:1213: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lsocket  -lnsl  1>&5
+configure:1206:1: warning: function declaration isn't a prototype
+configure:1208:5: warning: function declaration isn't a prototype
+/usr/bin/ld: cannot find -lsocket
+collect2: ld returned 1 exit status
+configure: failed program was:
+#line 1202 "configure"
+#include "confdefs.h"
+/* Override any gcc2 internal prototype to avoid an error.  */
+/* We use char because int might match the return type of a gcc2
+    builtin and then its argument prototype would still apply.  */
+char socket();
+
+int main() {
+socket()
+; return 0; }
+configure:1242: checking how to run the C preprocessor
+configure:1263: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1322: checking for ANSI C header files
+configure:1335: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1402: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1396:5: warning: function declaration isn't a prototype
+configure: In function 'main':
+configure:1397:1: warning: implicit declaration of function 'exit'
+configure:1397:67: warning: incompatible implicit declaration of built-in function 'exit'
+configure:1429: checking for malloc.h
+configure:1439: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1429: checking for stdlib.h
+configure:1439: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1429: checking for string.h
+configure:1439: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1429: checking for sys/time.h
+configure:1439: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1429: checking for unistd.h
+configure:1439: gcc -E  conftest.c >/dev/null 2>conftest.out
+configure:1467: checking for uid_t in sys/types.h
+configure:1501: checking for pid_t
+configure:1534: checking whether time.h and sys/time.h may both be included
+configure:1548: gcc -c -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES  conftest.c 1>&5
+configure:1543:5: warning: function declaration isn't a prototype
+configure: In function 'main':
+configure:1544:12: warning: unused variable 'tp'
+configure:1569: checking whether byte ordering is bigendian
+configure:1587: gcc -c -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES  conftest.c 1>&5
+configure:1579:5: warning: function declaration isn't a prototype
+configure:1602: gcc -c -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES  conftest.c 1>&5
+configure:1594:5: warning: function declaration isn't a prototype
+configure: In function 'main':
+configure:1597:2: error: 'not' undeclared (first use in this function)
+configure:1597:2: note: each undeclared identifier is reported only once for each function it appears in
+configure:1597:6: error: expected ';' before 'big'
+configure: failed program was:
+#line 1591 "configure"
+#include "confdefs.h"
+#include <sys/types.h>
+#include <sys/param.h>
+int main() {
+
+#if BYTE_ORDER != BIG_ENDIAN
+ not big endian
+#endif
+; return 0; }
+configure:1662: checking for gethostname
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1662: checking for gettimeofday
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1662: checking for select
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1662: checking for socket
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1662: checking for uname
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1662: checking for snprintf
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1674:6: warning: conflicting types for built-in function 'snprintf'
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1662: checking for vsnprintf
+configure:1690: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1674:1: warning: function declaration isn't a prototype
+configure:1674:6: warning: conflicting types for built-in function 'vsnprintf'
+configure:1676:5: warning: function declaration isn't a prototype
+configure:1717: checking for strerror
+configure:1745: gcc -o conftest -g -O2 -W -Wall -Wmissing-prototypes -Wstrict-prototypes -DPROTOTYPES   conftest.c -lnsl  1>&5
+configure:1729:1: warning: function declaration isn't a prototype
+configure:1731:5: warning: function declaration isn't a prototype
